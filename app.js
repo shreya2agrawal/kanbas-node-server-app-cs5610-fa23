@@ -4,10 +4,12 @@ import HelloRoutes from "./hello.js";
 import Lab5 from "./lab5.js";
 import cors from "cors";
 import CourseRoutes from "./Database/courses/routes.js";
+import ModuleRoutes from "./Database/Modules/routes.js";
 
 const app = express();
 app.use(cors());
 CourseRoutes(app);
+ModuleRoutes(app);
 app.use(express.json());
 Lab5(app);
 HelloRoutes(app); // to pass all the hello routes in app
