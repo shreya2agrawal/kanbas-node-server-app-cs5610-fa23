@@ -86,15 +86,15 @@ function Lab5(app) {
   // Retrieving an Item from an Array by ID
 
   // Creating new Items in an Array
-  // app.get("/a5/todos/create", (req, res) => {
-  //   const newTodo = {
-  //     id: new Date().getTime(),
-  //     title: "New Task",
-  //     completed: false,
-  //   };
-  //   todos.push(newTodo);
-  //   res.json(todos);
-  // });
+  app.get("/a5/todos/create", (req, res) => {
+    const newTodo = {
+      id: new Date().getTime(),
+      title: "New Task",
+      completed: false,
+    };
+    todos.push(newTodo);
+    res.json(todos);
+  });
   app.post("/a5/todos", (req, res) => {
     const newTodo = {
       ...req.body,
