@@ -5,9 +5,13 @@ import Lab5 from "./Lab5.js";
 import cors from "cors";
 import CourseRoutes from "./Database/courses/routes.js";
 import ModuleRoutes from "./Database/modules/routes.js";
+import "dotenv/config";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  credentials:true,
+  origin: process.env.FRONTEND_URL
+}));
 CourseRoutes(app);
 ModuleRoutes(app);
 app.use(express.json());
@@ -23,7 +27,7 @@ HelloRoutes(app); // to pass all the hello routes in app
 
 // app.listen(4000);
 
-app.listen(4000, (err) => {
+app.listen(process.env.PORT || 4000, (err) => {
     if (err) {
       console.error("Error starting server:", err);
     } else {
