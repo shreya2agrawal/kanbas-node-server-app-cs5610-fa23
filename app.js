@@ -4,7 +4,7 @@ import HelloRoutes from "./hello.js";
 import Lab5 from "./Lab5.js";
 import cors from "cors";
 import CourseRoutes from "./Database/courses/routes.js";
-import ModuleRoutes from "./Database/Modules/routes.js";
+import ModuleRoutes from "./Database/modules/routes.js";
 
 const app = express();
 app.use(cors());
