@@ -125,12 +125,12 @@ function Lab5(app) {
   });
 
   // Updating an item in an array
-  // app.get("/a5/todos/:id/title/:title", (req, res) => {
-  //   const { id, title } = req.params;
-  //   const todo = todos.find((t) => t.id === parseInt(id));
-  //   todo.title = title;
-  //   res.json(todos);
-  // });
+  app.get("/a5/todos/:id/title/:title", (req, res) => {
+    const { id, title } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    todo.title = title;
+    res.json(todos);
+  });
   app.put("/a5/todos/:id", (req, res) => {
     const { id } = req.params;
     const todo = todos.find((t) => t.id === parseInt(id));
