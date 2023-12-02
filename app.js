@@ -3,20 +3,43 @@ import express from "express";
 import HelloRoutes from "./hello.js";
 import Lab5 from "./Lab5.js";
 import cors from "cors";
-import CourseRoutes from "./Database/courses/routes.js";
-import ModuleRoutes from "./Database/modules/routes.js";
+import EnrollmentRoutes from "./enrollments/routes.js";
+import CourseRoutes from "./courses/routes.js";
+import ModuleRoutes from "./modules/routes.js";
 import "dotenv/config";
+import mongoose from "mongoose";
+mongoose.connect("mongodb://127.0.0.1:27017/kanbas");
+import UserRoutes from "./users/routes.js";
+import session from "express-session";
+import LikesRoutes from "./likes/routes.js";
+import FollowsRoutes from "./follows/routes.js";
+import SectionRoutes from "./sections/routes.js";
 
 const app = express();
 app.use(cors({
   credentials:true,
   origin: process.env.FRONTEND_URL
 }));
+const sessionOptions = {
+  secret: "any string",
+  resave: false,
+  saveUninitialized: false,
+};
+app.use(session(sessionOptions));
+app.use(express.json());
+
+FollowsRoutes(app);
+LikesRoutes(app);
+
 CourseRoutes(app);
 ModuleRoutes(app);
-app.use(express.json());
+UserRoutes(app);
+
 Lab5(app);
 HelloRoutes(app); // to pass all the hello routes in app
+
+SectionRoutes(app);
+EnrollmentRoutes(app);
 
 // app.get("/hello", (req,res) => {
 //     res.send("Hello World!");
