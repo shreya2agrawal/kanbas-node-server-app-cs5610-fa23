@@ -1,19 +1,17 @@
 import mongoose from "mongoose";
-const schema = mongoose.Schema(
+const schema = new mongoose.Schema(
   {
     name: String,
     number: String,
     description: String,
+    description: String,
     startDate: Date,
     endDate: Date,
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
-    },
+    department: String,
+    credits: Number,
+    author: String,
   },
-  {
-    collection: "courses",
-  }
+  { collection: "courses" }
 );
 
 export default schema;
