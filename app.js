@@ -1,72 +1,48 @@
-import express from "express";
-import HelloRoutes from "./hello.js";
+import "dotenv/config";
+import session from "express-session";
+import express from 'express'
 import Lab5 from "./lab5.js";
+import Hello from "./hello.js"
 import CourseRoutes from "./courses/routes.js";
-import ModuleRoutes from "./modules/routes.js";
-import UserRoutes from "./users/routes.js";
+import ModuleRoutes from './modules/routes.js';
 import cors from "cors";
 import mongoose from "mongoose";
-mongoose.connect("mongodb://127.0.0.1:27017/kanbas");
-
+import UserRoutes from "./users/routes.js";
+import "dotenv/config";
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/kanbas';
+mongoose.connect(CONNECTION_STRING);
 const app = express();
-app.use(
-  cors({
+app.use(cors({
     credentials: true,
     origin: process.env.FRONTEND_URL,
-  })
-);
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
+
+  
 app.use(express.json());
 
-UserRoutes(app);
+const sessionOptions = {
+  secret: "any string",
+  resave: false,
+  saveUninitialized: false,
+};
+app.use(
+  session(sessionOptions)
+);
+if (process.env.NODE_ENV !== "development") {
+  sessionOptions.proxy = true;
+  sessionOptions.cookie = {
+    sameSite: "none",
+    secure: true,
+  };
+}
+app.use(session(sessionOptions));
+
+
 ModuleRoutes(app);
 CourseRoutes(app);
+UserRoutes(app);
+Hello(app)
 Lab5(app);
-HelloRoutes(app);
-
-app.listen(4000);
-
-// //const express = require("express");
-// import express from "express";
-// import HelloRoutes from "./hello.js";
-// import Lab5 from "./Lab5.js";
-// import cors from "cors";
-// import CourseRoutes from "./courses/routes.js";
-// import ModuleRoutes from "./modules/routes.js";
-// import "dotenv/config";
-// import mongoose from "mongoose";
-// mongoose.connect("mongodb://127.0.0.1:27017/kanbas");
-// import UserRoutes from "./users/routes.js";
-
-// const app = express();
-// app.use(cors({
-//   credentials:true,
-//   origin: process.env.FRONTEND_URL
-// }));
-// app.use(express.json());
-// CourseRoutes(app);
-// ModuleRoutes(app);
-// UserRoutes(app);
-// Lab5(app);
-// HelloRoutes(app); // to pass all the hello routes in app
-
-// // app.get("/hello", (req,res) => {
-// //     res.send("Hello World!");
-// // });
-// // app.get("/", (req, res) => {
-// //     res.send("Welcome to web development!");
-// // });
-
-// // app.listen(4000);
-
-// app.listen(process.env.PORT || 4000, (err) => {
-//     if (err) {
-//       console.error("Error starting server:", err);
-//     } else {
-//       console.log("Server started on port 4000");
-//     }
-//   });
-
-// // calls HTTP Server
-// // server is waiting forever for incoming request
-
-// const express = require("express");
+app.listen(process.env.PORT || 4000);
