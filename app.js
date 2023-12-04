@@ -27,9 +27,7 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
 };
-app.use(
-  session(sessionOptions)
-);
+
 if (process.env.NODE_ENV !== "development") {
   sessionOptions.proxy = true;
   sessionOptions.cookie = {
